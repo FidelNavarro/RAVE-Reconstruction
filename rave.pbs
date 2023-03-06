@@ -1,0 +1,11 @@
+#!/bin/bash
+#PBS -P PRISM
+#PBS -l select=1:ncpus=32:mem=123gb
+#PBS -l walltime=48:00:00
+#PBS -N yarra_GRASP_FN
+#PBS -M ___@uni.sydney.edu.au
+#PBS -m abe
+
+module load matlab/R2020a
+cd "${PBS_O_WORKDIR}"
+/usr/bin/time -v matlab -nosplash -nodisplay -r "rave_recon" > matlab_output.log

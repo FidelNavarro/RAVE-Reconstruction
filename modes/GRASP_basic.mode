@@ -1,0 +1,43 @@
+;##  YarraServer -- Reconstruction Mode Definition
+;##
+
+;## General options ##
+
+[ClientConfig]
+SortIndex=10
+Name=Basic GRASP (Matlab)
+Tag=_GSP
+RequiresACC=TRUE
+RequiresAdjScans=TRUE
+ConfirmationMail=
+Disabled=false
+
+[Options]
+KeepRawdata=true
+
+
+;## Definition of processing steps ##
+
+[Reconstruction]
+Bin=%hmb
+Args="-nodesktop -nosplash -r %hq try, addpath(genpath('%bu/GRASP_basic/')); yarra_GRASP_basic('%rid/','%rif','%rod','%tmp','%mc'); catch e, disp(e.message); end, quit; %hq"
+DisableMemKill=true
+  
+[PostProcessing]
+Bin1=%bd/SetDCMTags
+Args1=%pid %pod %rid/%rif -a %vacc -m %mc -t %rid/rit 
+
+[Transfer]
+Bin=%bd/DriveTransfer
+Args=%mc %td %vuid
+
+
+;## Module options ##
+
+[GRASP]
+SpokesPerFrame=21
+applykzfilter=true
+lambda=0.05
+
+[DriveTransfer]
+TargetPath=/media/MRIScan/Working-Temp/yarra_out
